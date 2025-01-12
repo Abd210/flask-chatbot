@@ -166,12 +166,10 @@ def chat():
     else:
         custom_instruction = SYSTEM_INSTRUCTION_BASE
 
-    # Build the prompt with current summaries and user input
     prompt = build_prompt(summary, user_bio, user_input, custom_instruction)
     response = model.generate_content(prompt)
     assistant_reply = response.text.strip()
 
-    # Add resources if depressed
     if depressed:
         assistant_reply += (
             f"\n\nYou might find these resources helpful:\n- {RESOURCE_LINKS['general_support']}\n"
