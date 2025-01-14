@@ -3,9 +3,6 @@ from flask import Flask, request, jsonify
 from textblob import TextBlob
 import google.generativeai as genai
 
-########################################
-# Configuration
-########################################
 genai.configure(api_key="AIzaSyAso1BzoBSxR4C2bPN8IOHbs3lYMvQ1euc")
 model = genai.GenerativeModel("gemini-1.5-flash")
 
@@ -34,9 +31,6 @@ RESOURCE_LINKS = {
 CRISIS_KEYWORDS = ["suicide", "kill myself", "end my life", "not worth living", "overdose"]
 DEPRESSED_THRESHOLD = -0.5
 
-########################################
-# Helper Functions
-########################################
 
 def analyze_message_sentiment(message: str) -> float:
     analysis = TextBlob(message)
@@ -119,13 +113,9 @@ def user_requests_conclusion(user_input: str) -> bool:
     phrases = ["final result", "conclusion", "summary", "sum up", "end advice", "final advice"]
     return any(phrase in user_input.lower() for phrase in phrases)
 
-########################################
-# Flask Application
-########################################
 
 app = Flask(__name__)
 
-# Global variables to maintain conversation state
 conversation_history = []
 summary = "The user has just started sharing. No significant details yet."
 user_bio = "No personal details known yet."
@@ -155,7 +145,6 @@ def chat():
     classification = classify_message(user_input)
     wants_conclusion = user_requests_conclusion(user_input)
 
-    # Adjust system instruction based on off-topic or final conclusion requests
     if classification == "off-topic" and not wants_conclusion:
         custom_instruction = (
             SYSTEM_INSTRUCTION_BASE + 
@@ -177,17 +166,14 @@ def chat():
             "Remember, you deserve compassion and understanding."
         )
 
-    # If off-topic (and not concluding), gently steer back
     if classification == "off-topic" and not wants_conclusion:
         assistant_reply += (
             "\n\nIt seems we've drifted off from your feelings. I'm here to help and support you emotionally. "
             "What’s on your mind emotionally? Is there something troubling you or affecting how you feel?"
         )
 
-    # Append to conversation history
     conversation_history.append({"user": user_input, "assistant": assistant_reply})
 
-    # Update summaries
     summary = update_summary(summary, conversation_history)
     user_bio = update_user_biography(user_bio, conversation_history)
 
