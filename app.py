@@ -3,9 +3,6 @@ from flask import Flask, request, jsonify
 from textblob import TextBlob
 import google.generativeai as genai
 
-########################################
-# Configuration
-########################################
 genai.configure(api_key="AIzaSyAso1BzoBSxR4C2bPN8IOHbs3lYMvQ1euc")
 model = genai.GenerativeModel("gemini-1.5-flash")
 
