@@ -5,7 +5,7 @@ import google.generativeai as genai
 
 genai.configure(api_key="AIzaSyAso1BzoBSxR4C2bPN8IOHbs3lYMvQ1euc")
 model = genai.GenerativeModel("gemini-1.5-flash")
-
+# this is the SYSTEM_INSTRUCTION_BASE
 SYSTEM_INSTRUCTION_BASE = (
     "You are a highly supportive and empathetic mental health chatbot with advanced reasoning capabilities. "
     "You have memory of the conversation and user details through provided summaries. You are not a "
@@ -15,6 +15,7 @@ SYSTEM_INSTRUCTION_BASE = (
     "discussing their feelings. If the user requests a final conclusion, provide a comprehensive summary of the "
     "situation and helpful next steps."
 )
+
 
 DISCLAIMER = (
     "I am not a licensed professional. If you’re feeling overwhelmed or in crisis, please reach out to "
